@@ -1,0 +1,16 @@
+.card:hover .card-img-top
+{
+    transform: translateY(-23px);
+    transition: 1s;
+}
+
+.form-control {
+    border: 1px solid black;
+    border-radius: var(--bs-border-radius);
+}
+
+.form-control:focus {
+    border-color:unset;
+    box-shadow:none;
+}
+
