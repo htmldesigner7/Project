@@ -218,10 +218,16 @@
             background: unset;
             color: unset;
         }
+
+        #myVideo {
+    position: relative; /* or absolute/fixed/sticky depending on your layout */
+    z-index: 99999999 !important;
+}
     </style>
 </head>
 
 <body>
+    
     <header id="header">
         <nav class="navbar navbar-expand-lg py-lg-4 py-sm-3 scrolled" style="background-color: rgb(255, 255, 255);">
             <div class="container"> <a class="navbar-brand">
@@ -276,6 +282,28 @@
             </div>
         </nav>
     </header>
+    <video id="myVideo" width="100%" height="100%" autoplay="autoplay" muted="muted">
+        <source src="./Glitterdust Logo Reveal_free (1).mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+</iframe>
+<script>
+    // Check if video has already been shown in this session
+  if (!sessionStorage.getItem('videoShown')) {
+    // Mark as shown so it doesn’t appear again on refresh
+    sessionStorage.setItem('videoShown', 'true');
+
+    // Hide after 12 seconds
+    setTimeout(function () {
+      var video = document.getElementById('myVideo');
+      video.pause();
+      video.style.display = 'none';
+    }, 12000);
+  } else {
+    // If already shown in this session, hide it immediately
+    document.getElementById('myVideo').style.display = 'none';
+  }
+  </script>
 </body>
 
 </html>
