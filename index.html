@@ -1,28 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Storage</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./style.css">
+    <title>Document</title> <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --white: #fff;
+            --black: #333;
+            --pitch: #ff5756;
+            --blue: #002561;
+            --dr-blue: #1C1F66;
+            --gray: #9da7b8;
+            --border: #dddddd;
+            --lg-bg: #ECF8FF;
+            --bbb: #000;
+        }
+        
+        body {
+            background-repeat: no-repeat;
+            background-position: top right;
+            background-size: auto;
+            font-size: 16px;
+            color: var(--black);
+        }
+        
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 99;
+            border: 1px solid;
+            /* overflow-y: scroll;
+            scrollbar-width: none; */
+        }
+
+        .main-logo {
+            width: 100px;
+        }
+        
+        .navbar-expand-lg .navbar-nav {
+            gap: 30px;
+        }
+        
+        .nav-item .nav-link {
+            color: var(--bbb);
+            font-size: 16px;
+            font-weight: 400;
+        }
+        
+        .nav-item .nav-link img {
+            transform: rotate(-180deg);
+            transition: 1s;
+            margin-left: 6px;
+        }
+        
+        .nav-item:hover .nav-link img {
+            transform: rotate(0deg);
+        }
+        
+        .nav-item
+        {
+            position: relative;
+        }
+
+        .nav-item_menu
+        {
+            display: none;
+            background-color: var(--white);
+            box-shadow: 0 0 12px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            min-width: 200px;
+            z-index: 1222222;
+        }
+
+        .nav-item:hover .nav-item_menu
+        {
+            display: block;
+            top: 40px;
+        }
+
+        .nav-item_menu ul
+        {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-item_menu ul li
+        {
+            list-style: none;
+        }
+
+        .nav-item_menu ul li a
+        {
+           text-decoration: none;
+           color: var(--bbb);
+           display: inline-block;
+           padding: 12px 12px;
+        }
+
+        .nav-item_menu ul li:hover
+        {
+            background: var(--blue);
+        }
+
+        .nav-item_menu ul li:hover a
+        {
+            color: var(--white);
+        }
+        
+        .sign_up_btn {
+            background-color: var(--dr-blue);
+            color: var(--white);
+            border: 1px solid var(--white);
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+        
+        .sign_up_btn:hover {
+            background: var(--white);
+            color: var(--dr-blue);
+            transition: all 0.5s ease-in-out;
+            border: 1px solid var(--dr-blue);
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: none;
+            outline: none;
+        }
+        
+        .navbar-toggler {
+            border: none;
+        }
+        
+        .navbar-toggler .icon-bar {
+            height: 2px;
+            width: 26px;
+            background-color: var(--white);
+            border-radius: 1px;
+            display: block;
+            margin-top: 5px;
+            transition: all 0.2s;
+        }
+        
+        .navbar-toggler .top-bar {
+            transform: rotate(45deg);
+            transform-origin: 10% 10%;
+        }
+        
+        .navbar-toggler .middle-bar {
+            opacity: 0;
+        }
+        
+        .navbar-toggler .bottom-bar {
+            transform: rotate(-45deg);
+            transform-origin: 10% 90%;
+        }
+        
+        .navbar-toggler.collapsed .middle-bar {
+            opacity: 1;
+        }
+        
+        .navbar-toggler.collapsed .bottom-bar {
+            transform: rotate(0);
+        }
+        
+        .navbar-toggler.collapsed .top-bar {
+            transform: rotate(0);
+        }
+
+        @media (max-width:992px)
+        {
+            .nav-item .nav-link
+            {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .nav-item_menu
+            {
+                width: 100%;
+            }
+            
+            .navbar-collapse
+            {
+                margin-top: 20px;
+            }
+
+            .log_your
+            {
+                margin-top: 32px;
+                margin-bottom: 12px;
+            }
+
+            header {
+            /* overflow-y: scroll;
+            scrollbar-width: none; */
+        }
+        
+        }
+
+        @media (max-width:768px)
+        {
+           
+        }
+
+        ::selection
+        {
+            background: unset;
+            color: unset;
+        }
+    </style>
 </head>
+
 <body>
-todo add
-    <div class="container my-5">
-        <div class="d-flex gap-3">
-            <input type="text" class="form-control" id="url" placeholder="Image URL">
-            <input type="text" class="form-control" id="name" placeholder="Name">
-            <input type="text" class="form-control" id="contentpara" placeholder="Description">
-            <button class="btn btn-warning" onclick="HandleAdd()">Add</button>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row" id="cardContainer"></div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./main.js"></script>
+    <header id="header">
+        <nav class="navbar navbar-expand-lg py-lg-4 py-sm-3 scrolled" style="background-color: rgb(255, 255, 255);">
+            <div class="container"> <a class="navbar-brand">
+                         <img class="img-fluid main-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQAKhiq4MUlyclxdEZLtzX57E9KGw4lk6k9Q&s" alt="logo">
+                </a> 
+                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> 
+                    <span class="icon-bar top-bar" style="background-color: rgb(0, 0, 0);"></span> 
+                    <span class="icon-bar middle-bar" style="background-color: rgb(0, 0, 0);"></span> 
+                    <span class="icon-bar bottom-bar" style="background-color: rgb(0, 0, 0);"></span> 
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav m-auto ">
+                        <li class="nav-item">
+                            <a href="#" id="featuresLink" class="nav-link active">Home 1 <img src="./arrow.svg" alt="arrow"></a>
+                            <div class="nav-item_menu">
+                                <ul>
+                                    <li><a href="#">Home 1</a></li>
+                                    <li><a href="#">Home 1</a></li>
+                                    <li><a href="#">Home 1</a></li>
+                                    <li><a href="#">Home 1</a></li>
+                                    <li><a href="#">Home 1</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" id="aboutLink" class="nav-link">About 1<img src="./arrow.svg" alt="arrow"></a>
+                            <div class="nav-item_menu">
+                                <ul>
+                                    <li><a href="#">About 1</a></li>
+                                    <li><a href="#">About 1</a></li>
+                                    <li><a href="#">About 1</a></li>
+                                    <li><a href="#">About 1</a></li>
+                                    <li><a href="#">About 1</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" id="pricingLink" class="nav-link">services 1<img src="./arrow.svg" alt="arrow"></a>
+                            <div class="nav-item_menu">
+                                <ul>
+                                    <li><a href="#">services</a></li>
+                                    <li><a href="#">services</a></li>
+                                    <li><a href="#">services</a></li>
+                                    <li><a href="#">services</a></li>
+                                    <li><a href="#">services</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="log_your"> <a href="#" class="sign_up_btn">Log In</a> </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 </body>
+
 </html>
