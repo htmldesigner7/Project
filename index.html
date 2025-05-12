@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Mega Menu</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      padding-top: 70px; /* Space for fixed navbar */
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #2c3e50;
+      padding: 0 2rem;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      background: rgba(44, 62, 80, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      color: white;
+      font-size: 1.8rem;
+      font-weight: bold;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      font-size: 1.5em;
+    }
+
+    /* Desktop Nav */
+    .desktop-nav {
+      display: flex;
+      list-style: none;
+      gap: 1rem;
+    }
+
+    .desktop-nav > li {
+      position: relative;
+    }
+
+    .desktop-nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 1rem 1.2rem;
+      display: block;
+      transition: all 0.3s;
+      border-radius: 4px;
+    }
+
+    .desktop-nav a:hover,
+    .desktop-nav .dropdown:hover > a {
+      background: rgba(255, 255, 255, 0.1);
+      color: #f1c40f;
+    }
+
+    /* Mega Menu */
+    .mega-menu {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      min-width: 800px;
+      background: white;
+      padding: 2rem;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      border-radius: 0 0 8px 8px;
+      /* opacity: 0;
+      visibility: hidden; */
+      transform: translateY(15px);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+      display: flex;
+      gap: 2rem;
+    }
+
+    .dropdown:hover .mega-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .mega-column {
+      flex: 1;
+    }
+
+    .mega-column h3 {
+      color: #2c3e50;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid #f1c40f;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mega-column h3 .icon {
+      font-size: 1.2em;
+    }
+
+    .mega-column ul {
+      list-style: none;
+    }
+
+    .mega-column li {
+      margin-bottom: 0.6rem;
+    }
+
+    .mega-column a {
+      color: #555;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.5rem 0;
+      transition: all 0.2s;
+      border-radius: 4px;
+      padding: 0.5rem;
+    }
+
+    .mega-column a:hover {
+      color: #e74c3c;
+      background: rgba(231, 76, 60, 0.1);
+      transform: translateX(5px);
+    }
+
+    .mega-column a .icon {
+      color: #e74c3c;
+      font-size: 0.9em;
+    }
+
+    .mega-featured {
+      position: relative;
+      flex: 1.5;
+      background: linear-gradient(135deg, #3498db, #2c3e50);
+      border-radius: 8px;
+      padding: 1.5rem;
+      color: white;
+      overflow: hidden;
+    }
+
+    .mega-featured h3 {
+      color: white;
+      border-bottom-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .mega-featured p {
+      margin-bottom: 1rem;
+      opacity: 0.9;
+    }
+
+    .mega-featured .btn {
+      display: inline-block;
+      background: #f1c40f;
+      color: #2c3e50;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 1rem;
+      transition: all 0.3s;
+    }
+
+    .mega-featured .btn:hover {
+      background: white;
+      transform: translateY(-2px);
+    }
+
+    /* Mobile Nav Button */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      position: relative;
+      z-index: 1001;
+      padding: 0;
+    }
+
+    .mobile-menu-btn span {
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: white;
+      position: absolute;
+      left: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-btn span:nth-child(1) {
+      top: 12px;
+    }
+
+    .mobile-menu-btn span:nth-child(2) {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .mobile-menu-btn span:nth-child(3) {
+      bottom: 12px;
+    }
+
+    /* Animated "X" when active */
+    .mobile-menu-btn.active span:nth-child(1) {
+      top: 50%;
+      transform: translateY(-50%) rotate(45deg);
+    }
+
+    .mobile-menu-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-menu-btn.active span:nth-child(3) {
+      bottom: 50%;
+      transform: translateY(50%) rotate(-45deg);
+    }
+
+    /* Mobile Nav */
+    .mobile-nav {
+      list-style: none;
+      background: #34495e;
+      width: 100%;
+      position: fixed;
+      top: 70px;
+      left: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .mobile-nav.active {
+      max-height: 100vh;
+    }
+
+    .mobile-nav > li {
+      padding: 1rem 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-nav a {
+      color: white;
+      text-decoration: none;
+      display: block;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .mobile-nav a:hover {
+      color: #f1c40f;
+    }
+
+    .mobile-dropdown {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      list-style: none;
+      background: rgba(0, 0, 0, 0.1);
+      margin-left: -2rem;
+      margin-right: -2rem;
+      padding-left: 2rem;
+    }
+
+    .mobile-dropdown.active {
+      max-height: 500px;
+    }
+
+    .mobile-dropdown li {
+      padding: 0.8rem 0;
+    }
+
+    .mobile-dropdown a {
+      padding-left: 1rem;
+      border-left: 3px solid transparent;
+    }
+
+    .mobile-dropdown a:hover {
+      border-left-color: #f1c40f;
+    }
+
+    .mobile-nav > li.has-dropdown > a {
+      position: relative;
+      padding-right: 2rem;
+    }
+
+    .mobile-nav > li.has-dropdown > a:after {
+      content: "+";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: transform 0.3s;
+    }
+
+    .mobile-nav > li.has-dropdown.active > a:after {
+      content: "-";
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .mega-menu {
+        min-width: 600px;
+        left: 50%;
+        transform: translate(-50%, 15px);
+      }
+      
+      .dropdown:hover .mega-menu {
+        transform: translate(-50%, 0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .desktop-nav {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .mega-menu {
+        display: none;
+      }
+    }
+
+    /* Demo Content */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      margin-bottom: 1.5rem;
+      color: #2c3e50;
+    }
+
+    .content-section {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="navbar-container">
+      <a href="#" class="logo">
+        <span class="logo-icon">🛍️</span>
+        <span>MegaShop</span>
+      </a>
+      
+      <!-- Desktop Nav -->
+      <ul class="desktop-nav">
+        <li class="dropdown">
+          <a href="#">Shop</a>
+          <div class="mega-menu">
+            <div class="mega-column">
+              <h3><span class="icon">📱</span>Electronics</h3>
+              <ul>
+                <li><a href="#"><span class="icon">➡️</span>Smartphones</a></li>
+                <li><a href="#"><span class="icon">➡️</span>Laptops</a></li>
+                <li><a href="#"><span class="icon">➡️</span>Tablets</a></li>
+                <li><a href="#"><span class="icon">➡️</span>Accessories</a></li>
+              </ul>
+            </div>
+            <div class="mega-column">
+              <h3><span class="icon">👕</span>Fashion</h3>
+              <ul>
+                <li><a href="#"><span class="icon">➡️</span>Men's Clothing</a></li>
+                <li><a href="#"><span class="icon">➡️</span>Women's Clothing</a></li>
+                <li><a href="#"><span class="icon">➡️</span>Kids & Baby</a></li>
+                <li><a href="#"><span class="icon">➡️</span>Shoes & Bags</a></li>
+              </ul>
+            </div>
+            <div class="mega-column">
+              <h3><span class="icon">🏠</span>Home</h3>
+              <ul>
+                <li><a href="#"><span class="icon">➡️</span>Furniture</a></li>
+                <li><a href="#"><span class="icon">➡️</span>Kitchen</a></li>
+                <li><a href="#"><span class="icon">➡️</span>Bedding</a></li>
+                <li><a href="#"><span class="icon">➡️</span>Home Decor</a></li>
+              </ul>
+            </div>
+            <div class="mega-featured">
+              <h3>Summer Sale!</h3>
+              <p>Get up to 50% off on selected items. Limited time offer.</p>
+              <a href="#" class="btn">Shop Now</a>
+            </div>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#">Categories</a>
+          <div class="mega-menu">
+            <div class="mega-column">
+              <h3><span class="icon">🎯</span>Popular</h3>
+              <ul>
+                <li><a href="#"><span class="icon">➡️</span>Best Sellers</a></li>
+                <li><a href="#"><span class="icon">➡️</span>New Arrivals</a></li>
+                <li><a href="#"><span class="icon">➡️</span>Trending Now</a></li>
+              </ul>
+            </div>
+            <div class="mega-column">
+              <h3><span class="icon">🏷️</span>Deals</h3>
+              <ul>
+                <li><a href="#"><span class="icon">➡️</span>Today's Deals</a></li>
+                <li><a href="#"><span class="icon">➡️</span>Clearance</a></li>
+                <li><a href="#"><span class="icon">➡️</span>Bundle Offers</a></li>
+              </ul>
+            </div>
+            <div class="mega-featured">
+              <h3>Member Exclusive</h3>
+              <p>Become a member and enjoy special discounts and early access to sales.</p>
+              <a href="#" class="btn">Join Now</a>
+            </div>
+          </div>
+        </li>
+        <li><a href="#">Deals</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+
+      <!-- Mobile Toggle Button -->
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <!-- Mobile Nav -->
+    <ul class="mobile-nav" id="mobileNav">
+      <li class="has-dropdown">
+        <a href="#">Shop</a>
+        <ul class="mobile-dropdown">
+          <li><a href="#">Electronics</a></li>
+          <li><a href="#">Fashion</a></li>
+          <li><a href="#">Home & Kitchen</a></li>
+          <li><a href="#">Beauty</a></li>
+        </ul>
+      </li>
+      <li class="has-dropdown">
+        <a href="#">Categories</a>
+        <ul class="mobile-dropdown">
+          <li><a href="#">Best Sellers</a></li>
+          <li><a href="#">New Arrivals</a></li>
+          <li><a href="#">Deals</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Deals</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="content-section">
+      <h1>Welcome to MegaShop</h1>
+      <p>Scroll down to see the fixed navbar in action. On desktop, hover over the "Shop" or "Categories" menu items to see the mega menu.</p>
+      <p>On mobile, click the hamburger menu to see the mobile navigation.</p>
+    </div>
+    
+    <div class="content-section">
+      <h2>Featured Products</h2>
+      <p>This is just placeholder content to make the page scrollable.</p>
+    </div>
+    
+    <div style="height: 100vh;"></div>
+    
+    <div class="content-section">
+      <h2>More Content</h2>
+      <p>Continue scrolling...</p>
+    </div>
+  </main>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    const navbar = document.getElementById('navbar');
+
+    mobileMenuBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      this.classList.toggle('active');
+      mobileNav.classList.toggle('active');
+    });
+
+    // Mobile dropdown toggles
+    const mobileDropdowns = document.querySelectorAll('.mobile-nav > li.has-dropdown > a');
+    mobileDropdowns.forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        const parent = this.parentElement;
+        const dropdown = this.nextElementSibling;
+        
+        // Close other open dropdowns
+        document.querySelectorAll('.mobile-dropdown.active').forEach(openDropdown => {
+          if (openDropdown !== dropdown) {
+            openDropdown.classList.remove('active');
+            openDropdown.previousElementSibling.parentElement.classList.remove('active');
+          }
+        });
+        
+        parent.classList.toggle('active');
+        dropdown.classList.toggle('active');
+      });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function() {
+      if (mobileNav.classList.contains('active')) {
+        mobileMenuBtn.classList.remove('active');
+        mobileNav.classList.remove('active');
+        document.querySelectorAll('.mobile-dropdown.active').forEach(dropdown => {
+          dropdown.classList.remove('active');
+          dropdown.previousElementSibling.parentElement.classList.remove('active');
+        });
+      }
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Prevent mobile menu from closing when clicking inside
+    mobileNav.addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
+  </script>
+</body>
+</html>
